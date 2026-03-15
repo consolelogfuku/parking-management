@@ -1,11 +1,4 @@
-# PARK-001 実装計画: 駐車場空き状況確認システム
-
-## タスク概要
-
-**Jiraチケット**: PARK-001
-**スプリント**: Sprint 1
-**期限**: -
-**担当者**: -
+# 実装計画: 駐車場空き状況確認システム
 
 ## 要件
 
@@ -39,17 +32,16 @@
 ### 3. 実装 🚀
 
 #### 3.1 Docker環境構築・DB接続確認
-- [ ] Dockerfile の作成（Ruby + Node.js マルチステージビルド）
-- [ ] compose.yml の作成（app / db / js）
-- [ ] config/database.yml の設定
-- [ ] `docker compose build` の実行・確認
-- [ ] `docker compose run --rm app bin/rails db:create` の実行・確認
-- [ ] `docker compose up` でRailsが起動することの確認
+- [x] Dockerfile の作成（Ruby + Node.js マルチステージビルド）
+- [x] compose.yml の作成（app / db / js）
+- [x] config/database.yml の設定
+- [x] `docker compose build` の実行・確認
+- [x] `docker compose run --rm app bin/rails db:create` の実行・確認
+- [x] `docker compose up` でRailsが起動することの確認
 
 #### 3.2 UUID主キー設定
-- [ ] config/application.rb に `primary_key_type: :uuid` を設定
-- [ ] config/initializers/generators.rb の作成（uuid デフォルト設定）
-- [ ] pgcrypto 拡張を有効化するマイグレーション作成・実行
+- [x] config/application.rb に `primary_key_type: :uuid` を設定
+- [x] pgcrypto 拡張を有効化するマイグレーション作成・実行
 
 #### 3.3 Devise導入・usersテーブル
 - [ ] Gemfile に devise を追加・bundle install
@@ -140,8 +132,8 @@
 ## 進捗記録
 
 - **開始日**: 2026-03-13
-- **3.1 Docker環境構築**: ⏳ 進行中
-- **3.2 UUID主キー設定**: ⏳ 未着手
+- **3.1 Docker環境構築**: ✅ 完了
+- **3.2 UUID主キー設定**: ✅ 完了
 - **3.3 Devise導入**: ⏳ 未着手
 - **3.4 ActiveAdmin導入**: ⏳ 未着手
 - **3.5 parkingsテーブル**: ⏳ 未着手

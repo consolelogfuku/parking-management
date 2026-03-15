@@ -1,0 +1,166 @@
+@use "variables" as *;
+
+.admin-header-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.admin-nav {
+  display: flex;
+  gap: 4px;
+}
+
+.admin-nav-link {
+  padding: 6px 14px;
+  border-radius: $radius-pill;
+  font-size: 14px;
+  color: #64748b;
+  text-decoration: none;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #f1f5f9;
+    color: $color-text;
+  }
+
+  &.active {
+    background: $gradient-primary;
+    color: #fff;
+  }
+}
+
+// Dashboard
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.dashboard-card {
+  background: #fff;
+  border-radius: $radius-lg;
+  padding: 28px 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  text-align: center;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.dashboard-card-icon {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.dashboard-card-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: $color-text-dark;
+}
+
+.dashboard-card-label {
+  font-size: 14px;
+  color: $color-text-muted;
+  margin-bottom: 12px;
+}
+
+.dashboard-card-link {
+  font-size: 13px;
+  color: $color-primary;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// Table
+.admin-table-wrapper {
+  background: #fff;
+  border-radius: $radius-lg;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+
+  th, td {
+    padding: 14px 18px;
+    text-align: left;
+  }
+
+  thead th {
+    background: #f8fafc;
+    color: $color-text-muted;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    border-bottom: 2px solid $color-border;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid #f1f5f9;
+    transition: background 0.15s;
+
+    &:hover {
+      background: #fafbff;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  td {
+    color: $color-text;
+  }
+}
+
+.admin-table-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+
+// Detail
+.admin-detail-card {
+  background: #fff;
+  border-radius: $radius-lg;
+  padding: 32px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  max-width: 600px;
+  margin-bottom: 32px;
+}
+
+.admin-detail-list {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 12px 20px;
+  margin: 0;
+
+  dt {
+    font-size: 13px;
+    color: $color-text-muted;
+    font-weight: 600;
+  }
+
+  dd {
+    margin: 0;
+    font-size: 15px;
+    color: $color-text;
+  }
+}
+
+.admin-detail-actions {
+  margin-top: 24px;
+  display: flex;
+  gap: 12px;
+}

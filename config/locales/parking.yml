@@ -1,0 +1,14 @@
+ja:
+  activerecord:
+    models:
+      parking: "駐車場"
+    attributes:
+      parking:
+        name: "駐車場名"
+        status: "空き状況"
+        phone_number: "電話番号"
+  enumerize:
+    parking:
+      status:
+        available: "空きあり"
+        full: "満車"

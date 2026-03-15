@@ -1,0 +1,31 @@
+<h1>駐車場詳細</h1>
+
+<div class="admin-detail-card">
+  <dl class="admin-detail-list">
+    <dt>名前</dt>
+    <dd><%= @parking.name %></dd>
+
+    <dt>ステータス</dt>
+    <dd>
+      <% badge_class = @parking.available? ? "status-badge-available" : "status-badge-full" %>
+      <span class="status-badge <%= badge_class %>"><%= @parking.status_text %></span>
+    </dd>
+
+    <dt>電話番号</dt>
+    <dd><%= @parking.phone_number.presence || "-" %></dd>
+
+    <dt>オーナー</dt>
+    <dd><%= link_to @parking.user.email, admin_user_path(@parking.user) %></dd>
+
+    <dt>作成日</dt>
+    <dd><%= l @parking.created_at, format: :long %></dd>
+
+    <dt>更新日</dt>
+    <dd><%= l @parking.updated_at, format: :long %></dd>
+  </dl>
+
+  <div class="admin-detail-actions">
+    <%= link_to "編集", edit_admin_parking_path(@parking), class: "btn btn-secondary" %>
+    <%= link_to "← 一覧に戻る", admin_parkings_path, class: "btn btn-secondary" %>
+  </div>
+</div>

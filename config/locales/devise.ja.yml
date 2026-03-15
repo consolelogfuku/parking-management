@@ -1,0 +1,26 @@
+ja:
+  devise:
+    failure:
+      already_authenticated: "すでにログインしています。"
+      inactive: "アカウントが有効化されていません。"
+      invalid: "%{authentication_keys}またはパスワードが正しくありません。"
+      locked: "アカウントがロックされています。"
+      last_attempt: "あと1回失敗するとアカウントがロックされます。"
+      not_found_in_database: "%{authentication_keys}またはパスワードが正しくありません。"
+      timeout: "セッションがタイムアウトしました。再度ログインしてください。"
+      unauthenticated: "ログインしてください。"
+      unconfirmed: "メールアドレスの確認が必要です。"
+    sessions:
+      signed_in: "ログインしました。"
+      signed_out: "ログアウトしました。"
+      already_signed_out: "すでにログアウトしています。"
+    passwords:
+      no_token: "パスワードリセットメールからのアクセスではありません。"
+      send_instructions: "パスワードリセット手順をメールで送信しました。"
+      send_paranoid_instructions: "メールアドレスが登録されている場合、パスワードリセット手順をメールで送信します。"
+      updated: "パスワードを変更しました。"
+      updated_not_active: "パスワードを変更しました。"
+    registrations:
+      destroyed: "アカウントを削除しました。"
+      signed_up: "アカウントを登録しました。"
+      updated: "アカウント情報を変更しました。"

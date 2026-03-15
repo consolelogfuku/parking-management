@@ -1,0 +1,21 @@
+@use "variables" as *;
+
+* {
+  box-sizing: border-box;
+}
+
+a,
+a:any-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+body {
+  font-family: $font-family;
+  margin: 0;
+  padding: 0;
+  background: $bg-gradient;
+  min-height: 100vh;
+  line-height: 1.6;
+  color: $color-text;
+}

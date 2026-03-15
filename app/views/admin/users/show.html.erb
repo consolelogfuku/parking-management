@@ -1,0 +1,53 @@
+<h1>ユーザー詳細</h1>
+
+<div class="admin-detail-card">
+  <dl class="admin-detail-list">
+    <dt>メールアドレス</dt>
+    <dd><%= @user.email %></dd>
+
+    <dt>作成日</dt>
+    <dd><%= l @user.created_at, format: :long %></dd>
+
+    <dt>更新日</dt>
+    <dd><%= l @user.updated_at, format: :long %></dd>
+  </dl>
+
+  <div class="admin-detail-actions">
+    <%= link_to "編集", edit_admin_user_path(@user), class: "btn btn-secondary" %>
+    <%= link_to "← 一覧に戻る", admin_users_path, class: "btn btn-secondary" %>
+  </div>
+</div>
+
+<h2>駐車場一覧</h2>
+
+<% if @user.parkings.any? %>
+  <div class="admin-table-wrapper">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>名前</th>
+          <th>ステータス</th>
+          <th>電話番号</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @user.parkings.each do |parking| %>
+          <tr>
+            <td><%= parking.name %></td>
+            <td>
+              <% badge_class = parking.available? ? "status-badge-available" : "status-badge-full" %>
+              <span class="status-badge <%= badge_class %>"><%= parking.status_text %></span>
+            </td>
+            <td><%= parking.phone_number %></td>
+            <td class="admin-table-actions">
+              <%= link_to "編集", edit_admin_parking_path(parking), class: "btn btn-secondary btn-sm" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <p>駐車場はまだ登録されていません。</p>
+<% end %>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>管理画面 - Parking Management</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+  </head>
+  <body>
+    <header class="admin-header">
+      <div class="admin-header-left">
+        <div class="logo"><%= link_to "管理画面", admin_root_path %></div>
+        <nav class="admin-nav">
+          <%= link_to "ダッシュボード", admin_root_path, class: "admin-nav-link #{'active' if controller_name == 'dashboard'}" %>
+          <%= link_to "ユーザー", admin_users_path, class: "admin-nav-link #{'active' if controller_name == 'users'}" %>
+          <%= link_to "駐車場", admin_parkings_path, class: "admin-nav-link #{'active' if controller_name == 'parkings'}" %>
+          <%= link_to "管理者", admin_admin_users_path, class: "admin-nav-link #{'active' if controller_name == 'admin_users'}" %>
+        </nav>
+      </div>
+      <div class="user-info">
+        <%= current_admin_user.email %>
+        <%= link_to "ログアウト", destroy_admin_user_session_path, data: { turbo_method: :delete } %>
+      </div>
+    </header>
+    <main class="admin-content">
+      <% if notice.present? %>
+        <p class="notice"><%= notice %></p>
+      <% end %>
+      <% if alert.present? %>
+        <p class="alert"><%= alert %></p>
+      <% end %>
+      <%= yield %>
+    </main>
+  </body>
+</html>

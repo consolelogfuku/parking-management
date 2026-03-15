@@ -1,0 +1,24 @@
+<h1>ダッシュボード</h1>
+
+<div class="dashboard-cards">
+  <div class="dashboard-card">
+    <div class="dashboard-card-icon">👤</div>
+    <div class="dashboard-card-value"><%= @user_count %></div>
+    <div class="dashboard-card-label">ユーザー</div>
+    <%= link_to "一覧を見る →", admin_users_path, class: "dashboard-card-link" %>
+  </div>
+
+  <div class="dashboard-card">
+    <div class="dashboard-card-icon">🅿️</div>
+    <div class="dashboard-card-value"><%= @parking_count %></div>
+    <div class="dashboard-card-label">駐車場</div>
+    <%= link_to "一覧を見る →", admin_parkings_path, class: "dashboard-card-link" %>
+  </div>
+
+  <div class="dashboard-card">
+    <div class="dashboard-card-icon">🔑</div>
+    <div class="dashboard-card-value"><%= @admin_user_count %></div>
+    <div class="dashboard-card-label">管理者</div>
+    <%= link_to "一覧を見る →", admin_admin_users_path, class: "dashboard-card-link" %>
+  </div>
+</div>

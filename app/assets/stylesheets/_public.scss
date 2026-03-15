@@ -1,0 +1,114 @@
+@use "variables" as *;
+
+// Parking show page
+.parking-page {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  text-align: center;
+  font-family: $font-family;
+  line-height: 1.6;
+}
+
+.parking-name {
+  font-size: 1.6rem;
+
+  margin-bottom: 32px;
+  color: $color-text-dark;
+}
+
+.parking-status-card {
+  padding: 40px 24px;
+  border-radius: 2rem;
+  margin-bottom: 32px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.01);
+  }
+
+  &.available {
+    background: linear-gradient(135deg, #ecfdf5, #a7f3d0);
+    color: #065f46;
+  }
+
+  &.full {
+    background: linear-gradient(135deg, #fef2f2, #fecaca);
+    color: #991b1b;
+  }
+}
+
+.parking-status-text {
+  font-size: 2rem;
+}
+
+.parking-phone {
+  margin-top: 8px;
+}
+
+.parking-phone-label {
+  color: $color-text-muted;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.parking-phone-btn {
+  display: inline-block;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+  color: #1e40af;
+  text-decoration: none;
+  border-radius: $radius-pill;
+  font-size: 18px;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.1);
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 24px rgba(37, 99, 235, 0.2);
+  }
+}
+
+// Top page
+.top-page {
+  text-align: center;
+  padding: 80px 20px;
+  font-family: $font-family;
+}
+
+.top-icon {
+  font-size: 5rem;
+  margin-bottom: 16px;
+}
+
+.top-title {
+  font-size: 2rem;
+
+  color: $color-text-dark;
+  margin-bottom: 12px;
+}
+
+.top-subtitle {
+  color: $color-text-muted;
+  font-size: 16px;
+  margin-bottom: 32px;
+}
+
+.top-login-btn {
+  display: inline-block;
+  padding: 14px 36px;
+  background: $gradient-primary;
+  color: #fff;
+  text-decoration: none;
+  border-radius: $radius-pill;
+  font-size: 16px;
+
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.3);
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 24px rgba(245, 158, 11, 0.4);
+  }
+}

@@ -1,0 +1,24 @@
+<% content_for(:title) { "#{@parking.name} - 空き状況" } %>
+
+<div class="parking-page">
+  <h1 class="parking-name"><%= @parking.name %></h1>
+
+  <div class="parking-status-card <%= @parking.status %>">
+    <div class="parking-status-text">
+      <% case @parking.status
+         when 'available' %>空きがあります
+      <% when 'full' %>満車です
+      <% end %>
+    </div>
+  </div>
+
+  <% if @parking.phone_number.present? %>
+    <div class="parking-phone">
+      <p class="parking-phone-label">お問い合わせ</p>
+      <%= link_to "tel:#{@parking.phone_number}", class: "parking-phone-btn" do %>
+        <%= image_tag "icons/telephone.svg", size: "18x18", style: "vertical-align: -3px;" %>
+        <%= @parking.phone_number %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,153 @@
+@use "variables" as *;
+
+.notice {
+  max-width: 600px;
+  margin: 20px auto;
+  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+  color: #065f46;
+  padding: 14px 20px;
+  border-radius: $radius-sm;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.1);
+
+  &::before {
+    content: "✅ ";
+  }
+}
+
+.alert {
+  max-width: 600px;
+  margin: 20px auto;
+  background: linear-gradient(135deg, #fef2f2, #fecaca);
+  color: #991b1b;
+  padding: 14px 20px;
+  border-radius: $radius-sm;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.1);
+
+  &::before {
+    content: "⚠️ ";
+  }
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: $radius-pill;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  &:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.btn-primary {
+  background: $gradient-primary;
+  color: #fff;
+}
+
+.btn-secondary {
+  background: #fff;
+  color: #555;
+  border: 1px solid $color-border;
+
+  &:hover {
+    background: #f8fafc;
+  }
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+}
+
+.btn-dark {
+  background: linear-gradient(135deg, #334155, #1e293b);
+  color: #fff;
+
+  &,
+  &:any-link {
+    color: #fff;
+  }
+}
+
+.btn-info {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: #fff;
+
+  &,
+  &:any-link {
+    color: #fff;
+  }
+}
+
+.btn-danger {
+  background: #fff;
+  color: #dc2626;
+  border: 1px solid $color-border;
+
+  &,
+  &:any-link {
+    color: #dc2626;
+  }
+
+  &:hover {
+    background: #f8fafc;
+  }
+}
+
+.form-group {
+  margin-bottom: 20px;
+
+  label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #475569;
+  }
+
+  input,
+  select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid $color-border;
+    border-radius: $radius-input;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: #fff;
+    font-family: inherit;
+
+    &:focus {
+      outline: none;
+      border-color: $color-primary;
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+    }
+  }
+
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2364748b' d='M1.41 0L6 4.58 10.59 0 12 1.41l-6 6-6-6z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+  }
+}
+
+.btn-sm {
+  font-size: 13px;
+  padding: 8px 18px;
+}
+
+.form-errors {
+  background: linear-gradient(135deg, #fef2f2, #fecaca);
+  color: #991b1b;
+  padding: 14px 20px;
+  border-radius: $radius-sm;
+  margin-bottom: 20px;
+}

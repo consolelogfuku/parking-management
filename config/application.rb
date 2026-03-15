@@ -16,6 +16,10 @@ module ParkingManagement
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
+    config.generators do |g|
+      g.orm :active_record, primary_key_type: :uuid
+    end
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
@@ -23,5 +27,9 @@ module ParkingManagement
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    config.time_zone = "Tokyo"
+    config.i18n.default_locale = :ja
+    config.i18n.load_path += Dir[Rails.root.join("config", "locales", "**", "*.{rb,yml}").to_s]
   end
 end
