@@ -1,0 +1,39 @@
+<h1>駐車場一覧</h1>
+
+<p class="create-btn-area">
+  <%= link_to "新規作成", new_admin_parking_path, class: "btn btn-primary" %>
+</p>
+
+<div class="admin-table-wrapper">
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>名前</th>
+        <th>ステータス</th>
+        <th>電話番号</th>
+        <th>オーナー</th>
+        <th>作成日</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @parkings.each do |parking| %>
+        <tr>
+          <td><%= parking.name %></td>
+          <td>
+            <% badge_class = parking.available? ? "status-badge-available" : "status-badge-full" %>
+            <span class="status-badge <%= badge_class %>"><%= parking.status_text %></span>
+          </td>
+          <td><%= parking.phone_number %></td>
+          <td><%= parking.user.email %></td>
+          <td><%= l parking.created_at, format: :short %></td>
+          <td class="admin-table-actions">
+            <%= link_to "詳細", admin_parking_path(parking), class: "btn btn-info btn-sm" %>
+            <%= link_to "編集", edit_admin_parking_path(parking), class: "btn btn-secondary btn-sm" %>
+            <%= link_to "削除", admin_parking_path(parking), data: { turbo_method: :delete, turbo_confirm: "「#{parking.name}」を削除しますか？" }, class: "btn btn-danger btn-sm" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

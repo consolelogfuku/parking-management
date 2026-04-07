@@ -1,0 +1,31 @@
+<h1>管理者一覧</h1>
+
+<p class="create-btn-area">
+  <%= link_to "新規作成", new_admin_admin_user_path, class: "btn btn-primary" %>
+</p>
+
+<div class="admin-table-wrapper">
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>メールアドレス</th>
+        <th>作成日</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @admin_users.each do |admin_user| %>
+        <tr>
+          <td><%= admin_user.email %></td>
+          <td><%= l admin_user.created_at, format: :short %></td>
+          <td class="admin-table-actions">
+            <%= link_to "編集", edit_admin_admin_user_path(admin_user), class: "btn btn-secondary btn-sm" %>
+            <% if admin_user != current_admin_user %>
+              <%= link_to "削除", admin_admin_user_path(admin_user), data: { turbo_method: :delete, turbo_confirm: "「#{admin_user.email}」を削除しますか？" }, class: "btn btn-danger btn-sm" %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

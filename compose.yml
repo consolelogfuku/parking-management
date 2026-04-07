@@ -2,7 +2,9 @@ services:
   app:
     build:
       context: .
-    command: bin/rails server -b 0.0.0.0
+    command: sh -c "rm -f /app/tmp/sockets/puma.sock tmp/pids/server.pid &&
+      bundle exec rails db:prepare &&
+      bin/dev "
     ports:
       - "3000:3000"
     volumes:
@@ -13,6 +15,7 @@ services:
       - db
     environment:
       DATABASE_URL: postgres://postgres:password@db:5432/parking_management_development
+      NGROK_HOST: ${NGROK_HOST:-}
     tty: true
     stdin_open: true
 
@@ -24,15 +27,6 @@ services:
       - postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: password
-
-  js:
-    build:
-      context: .
-    command: npm run build -- --watch
-    volumes:
-      - .:/app
-      - node_modules:/app/node_modules
-    tty: true
 
 volumes:
   postgres_data:

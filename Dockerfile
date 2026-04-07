@@ -9,6 +9,7 @@ RUN apt-get update -qq && \
     build-essential \
     libpq-dev \
     libyaml-dev \
+    vim \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=nodejs /usr/local /usr/local

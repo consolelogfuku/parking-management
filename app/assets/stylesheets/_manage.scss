@@ -1,0 +1,221 @@
+@use "variables" as *;
+
+.admin-header {
+  background: #fff;
+  border-bottom: 1px solid #e8ecf4;
+  padding: 14px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  a {
+    color: #555;
+    text-decoration: none;
+    transition: color 0.2s;
+
+    &:hover {
+      color: $color-primary;
+    }
+  }
+
+  .logo {
+    font-size: 18px;
+    color: $color-text;
+
+    a {
+      color: $color-text;
+
+      &:hover {
+        color: $color-primary;
+      }
+    }
+  }
+
+  .user-info {
+    font-size: 14px;
+    color: #888;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+}
+
+.parking-list {
+  display: grid;
+  gap: 20px;
+}
+
+.parking-card {
+  background: #fff;
+  border-radius: 1.5rem;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.parking-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.parking-card-info {
+  flex: 1;
+  min-width: 200px;
+}
+
+.parking-card-name {
+  font-size: 1.2rem;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.parking-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.parking-card-status {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+}
+
+.status-badge-available {
+  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+  color: #065f46;
+}
+
+.status-badge-full {
+  background: linear-gradient(135deg, #fef2f2, #fecaca);
+  color: #991b1b;
+}
+
+.parking-card-actions {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.parking-empty {
+  text-align: center;
+  padding: 60px 20px;
+  background: #fff;
+  border-radius: 1.5rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.parking-empty-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.parking-empty-text {
+  color: #64748b;
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.form-card {
+  background: #fff;
+  border-radius: 1.5rem;
+  padding: 32px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  max-width: 560px;
+}
+
+.form-errors-list {
+  margin: 8px 0 0 0;
+  padding-left: 20px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.qr-container {
+  text-align: center;
+  padding: 32px 20px;
+}
+
+.qr-card {
+  display: inline-block;
+  padding: 32px;
+  background: #fff;
+  border-radius: 2rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+.qr-url {
+  margin-top: 20px;
+  color: #64748b;
+  font-size: 14px;
+
+  a {
+    color: #f59e0b;
+  }
+}
+
+.qr-parking-name {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: $color-text-dark;
+  margin-bottom: 16px;
+}
+
+.qr-actions {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.create-btn-area {
+  margin-bottom: 24px;
+}
+
+.admin-content {
+  max-width: 960px;
+  margin: 32px auto;
+  padding: 0 24px;
+
+  h1 {
+    font-size: 1.8rem;
+    color: $color-text-dark;
+    margin-bottom: 24px;
+  }
+
+  .notice,
+  .alert {
+    margin: 0 0 20px;
+    max-width: none;
+    text-align: left;
+  }
+}

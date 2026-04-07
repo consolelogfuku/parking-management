@@ -1,0 +1,47 @@
+<h1>駐車場一覧</h1>
+
+<p class="create-btn-area">
+  <%= link_to "➕ 新規作成", new_manage_parking_path, class: "btn btn-primary" %>
+</p>
+
+<% if @parkings.any? %>
+  <div class="parking-list">
+    <% @parkings.each do |parking| %>
+      <div class="parking-card">
+        <div class="parking-card-header">
+          <div class="parking-card-info">
+            <div class="parking-card-name">
+              🏢 <%= parking.name %>
+            </div>
+            <div class="parking-card-meta">
+              <% if parking.phone_number.present? %>
+                <span>📞 <%= parking.phone_number %></span>
+              <% end %>
+            </div>
+          </div>
+          <div class="parking-card-status">
+            <% badge_class = case parking.status
+               when 'available' then "status-badge-available"
+               when 'full' then "status-badge-full"
+               end %>
+            <span class="status-badge <%= badge_class %>">
+              <%= parking.status_text %>
+            </span>
+          </div>
+        </div>
+        <div class="parking-card-actions">
+          <%= link_to "✏️ 編集", edit_manage_parking_path(parking), class: "btn btn-secondary btn-sm" %>
+          <%= link_to "🗑 削除", manage_parking_path(parking), data: { turbo_method: :delete, turbo_confirm: "「#{parking.name}」を削除しますか？" }, class: "btn btn-danger btn-sm" %>
+          <%= link_to "📱 QR", qr_manage_parking_path(parking), class: "btn btn-dark btn-sm" %>
+          <%= link_to "🌐 公開ページ", public_parking_path(parking.id), target: "_blank", class: "btn btn-info btn-sm" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <div class="parking-empty">
+    <div class="parking-empty-icon">🅿️</div>
+    <p class="parking-empty-text">駐車場がまだ登録されていません。</p>
+    <p><%= link_to "➕ 最初の駐車場を作成", new_manage_parking_path, class: "btn btn-primary" %></p>
+  </div>
+<% end %>
