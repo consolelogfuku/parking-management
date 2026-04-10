@@ -1,0 +1,19 @@
+# ACM証明書を作成する
+resource "aws_acm_certificate" "main" {
+  domain_name = "parking-checker.com"
+  validation_method = "DNS"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  tags = {
+    Name = "parking-management-cert"
+  }
+}
+
+# ACM証明書を検証する
+resource "aws_acm_certificate_validation" "main" {
+  certificate_arn = aws_acm_certificate.main.arn
+  validation_record_fqdns = [for record in aws_route53_record.cert_validation : record.fqdn]
+}
