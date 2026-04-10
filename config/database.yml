@@ -17,6 +17,7 @@ production:
   primary: &primary_production
     <<: *default
     database: parking_management_production
+    host: <%= ENV["DATABASE_HOST"] %>
     username: parking_management
     password: <%= ENV["PARKING_MANAGEMENT_DATABASE_PASSWORD"] %>
   cache:
