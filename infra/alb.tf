@@ -78,6 +78,21 @@ resource "aws_lb_listener" "http" {
   port = 80
   protocol = "HTTP"
   default_action {
+    type = "redirect" # HTTPからHTTPSへリダイレクトする
+    redirect {
+      port = "443"
+      protocol = "HTTPS"
+      status_code = "HTTP_301"
+    }
+  }
+}
+
+resource "aws_lb_listener" "https" {
+  load_balancer_arn = aws_alb.main.arn
+  port = 443
+  protocol = "HTTPS"
+  certificate_arn = aws_acm_certificate.main.arn # ACM証明書を紐づける
+    default_action {
     type = "fixed-response"
     fixed_response {
       content_type = "text/html"
@@ -94,8 +109,8 @@ resource "aws_lb_listener" "http" {
   }
 }
 
-resource "aws_lb_listener_rule" "http_to_app" {
-  listener_arn = aws_lb_listener.http.arn
+resource "aws_lb_listener_rule" "https_to_app" {
+  listener_arn = aws_lb_listener.https.arn
 
   priority = 10
   action {

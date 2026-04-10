@@ -20,3 +20,15 @@ resource "aws_route53_record" "cert_validation" {
   ttl     = 60
   records = [each.value.record]
 }
+
+resource "aws_route53_record" "apex" {
+  zone_id = data.aws_route53_zone.main.zone_id
+  name    = "parking-checker.com"
+  type    = "A"
+
+  alias {
+    name = aws_alb.main.dns_name # ALBのDNS名
+    zone_id = aws_alb.main.zone_id # ALBのzone ID
+    evaluate_target_health = true # ALBの状態を評価する
+  }
+}
