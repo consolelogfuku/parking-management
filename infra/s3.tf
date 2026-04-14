@@ -41,3 +41,18 @@ resource "aws_s3_bucket_policy" "assets" {
     ]
   })
 }
+
+# CORS設定
+# このままだと静的ファイルの取得時に(xxx.comから、assets.xxx.com/assets/xxxx.jsにリクエスト)、レスポンスにAccess-Control-Allow-Origin ヘッダーがないため、ブラウザがレスポンスを読めない。⇒ S3からのレスポンスに、「Access-Control-Allow-Origin: ドメイン」がつくように設定する
+# こうすることで、xxx.comはassets.xxx.com/assets/xxxx.jsへのリクエストのレスポンスを読むことができる
+resource "aws_s3_bucket_cors_configuration" "assets" {
+  bucket = aws_s3_bucket.assets.id
+
+  cors_rule {
+    allowed_headers = ["*"]
+    allowed_methods = ["GET", "HEAD"]
+    allowed_origins = ["https://parking-checker.com"]
+    expose_headers  = ["ETag"]
+    max_age_seconds = 86400
+  }
+}
