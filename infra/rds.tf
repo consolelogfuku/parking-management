@@ -22,6 +22,16 @@ resource "aws_security_group_rule" "rds_sg_rule_inbound_rds" {
   security_group_id = aws_security_group.rds_sg.id
 }
 
+# ECSからRDSへの接続を許可
+resource "aws_security_group_rule" "rds_sg_rule_inbound_ecs" {
+  type = "ingress"
+  from_port = 5432
+  to_port = 5432
+  protocol = "tcp"
+  source_security_group_id = aws_security_group.ecs_sg.id
+  security_group_id = aws_security_group.rds_sg.id
+}
+
 resource "aws_security_group_rule" "rds_sg_rule_outbound" {
   # すべてのアウトバウンドを許可
   type = "egress"
