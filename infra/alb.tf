@@ -54,14 +54,15 @@ resource "aws_alb" "main" {
 }
 
 resource "aws_lb_target_group" "app" {
-  name = "parking-management-alb-tg"
-  port = 80 # Nginxのポート
+  name = "parking-checker-alb-tg"
+  port = 3000 # Railsのポート
   protocol = "HTTP"
   vpc_id = aws_vpc.main.id
+  target_type = "ip" # Fargateの場合は、ipを指定する(Fargateがコンテナを起動したら、自動でALBと紐づけてくれる)
 
   health_check {
     path = "/up"
-    port = 80 # Nginxのポート
+    port = 3000 # Railsのポート
     protocol = "HTTP"
     interval = 30
     timeout = 20
@@ -71,15 +72,37 @@ resource "aws_lb_target_group" "app" {
   tags = {
     Name = "parking-management-alb-tg"
   }
-
+  lifecycle {
+    create_before_destroy = true
+  }
 }
+
+# resource "aws_lb_target_group" "app" {
+#   name = "parking-management-alb-tg"
+#   port = 80 # Nginxのポート
+#   protocol = "HTTP"
+#   vpc_id = aws_vpc.main.id
+
+#   health_check {
+#     path = "/up"
+#     port = 80 # Nginxのポート
+#     protocol = "HTTP"
+#     interval = 30
+#     timeout = 20
+#     healthy_threshold = 5
+#     unhealthy_threshold = 2
+#   }
+#   tags = {
+#     Name = "parking-management-alb-tg"
+#   }
+# }
 
 # ターゲットグループとEC2を紐づける
-resource "aws_lb_target_group_attachment" "app" {
-  target_group_arn = aws_lb_target_group.app.arn
-  target_id = aws_instance.app_1a.id
-  port = 80 # ALBが、EC2の80ポートに流す(Nginx)
-}
+# resource "aws_lb_target_group_attachment" "app" {
+#   target_group_arn = aws_lb_target_group.app.arn
+#   target_id = aws_instance.app_1a.id
+#   port = 80 # ALBが、EC2の80ポートに流す(Nginx)
+# }
 
 # HTTPSでしか受け付けないためHTTPリスナーは不要(cloudfrontがhttp=>httpsへリダイレクトするため)
 # resource "aws_lb_listener" "http" {
