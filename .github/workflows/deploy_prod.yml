@@ -1,0 +1,122 @@
+name: Deploy to production
+
+on:
+  release:
+    types: [released]
+
+permissions:
+  contents: read # リポジトリのソースコードを読み取る（checkout用）
+  id-token: write # OIDCトークンを発行する
+
+jobs:
+  build-app:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    outputs:
+      image: ${{ steps.build-image.outputs.image }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }} # GitHub Actions用IAMロールを取得(ECRへのプッシュやECSデプロイ権限を付与したもの)
+          aws-region: ap-northeast-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build app container, tag, and push to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: parking-checker
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build \
+            --build-arg RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }} \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
+            -f Dockerfile.prod .
+          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker push --all-tags $ECR_REGISTRY/$ECR_REPOSITORY
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+  db-migrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    needs: [build-app]
+    env:
+      CLUSTER_NAME: parking-checker
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ap-northeast-1
+
+      - name: Download task definition
+        run: |
+          aws ecs describe-task-definition \
+            --task-definition ${CLUSTER_NAME}-db-migrate \
+            --query taskDefinition |
+            jq '. | del(.taskDefinitionArn, .status, .compatibilities, .requiresAttributes, .revision, .registeredBy, .registeredAt)' \
+            > task-definition.json
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: render-container
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: db-migrate
+          image: ${{ needs.build-app.outputs.image }}
+
+      - name: Run db:migrate
+        run: |
+          aws ecs register-task-definition \
+            --cli-input-json file://${{ steps.render-container.outputs.task-definition }}
+          aws ecs describe-services \
+            --cluster ${CLUSTER_NAME} \
+            --services app \
+            --query 'services[0].deployments[0].networkConfiguration' > network-configuration.json
+          echo '{"cluster": "'${CLUSTER_NAME}'", "launchType": "FARGATE"}' | \
+            jq '.taskDefinition |= .+"'${CLUSTER_NAME}'-db-migrate"' | \
+            jq ".networkConfiguration |= .+$(cat network-configuration.json)" > run-task.json
+          result=$(aws ecs run-task --cli-input-json file://./run-task.json)
+          container_arn=$(echo $result | jq -r '.tasks[0].taskArn')
+          aws ecs wait tasks-stopped --cluster ${CLUSTER_NAME} --tasks "${container_arn}"
+          exit_code=$(aws ecs describe-tasks --cluster ${CLUSTER_NAME} --tasks "${container_arn}" | \
+            jq '.tasks[0].containers[0].exitCode' --raw-output)
+          exit ${exit_code}
+
+  deploy-app:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    needs: [build-app, db-migrate]
+    env:
+      CLUSTER_NAME: parking-checker
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ap-northeast-1
+
+      - name: Download task definition
+        run: |
+          aws ecs describe-task-definition \
+            --task-definition ${CLUSTER_NAME}-app \
+            --query taskDefinition > task-definition.json
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: render-container
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: app
+          image: ${{ needs.build-app.outputs.image }}
+
+      - name: Deploy to Amazon ECS service
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.render-container.outputs.task-definition }}
+          service: app
+          cluster: ${{ env.CLUSTER_NAME }}

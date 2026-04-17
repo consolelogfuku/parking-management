@@ -1,0 +1,46 @@
+[
+  {
+    "name": "app",
+    "image": "${repository_url}:latest",
+    "command": ["bin/rails", "server", "-b", "0.0.0.0"],
+    "portMappings": [
+      {
+        "containerPort": 3000,
+        "hostPort": 3000
+      }
+    ],
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${awslogs_group}",
+        "awslogs-region": "ap-northeast-1",
+        "awslogs-stream-prefix": "app"
+      }
+    },
+    "environment": [
+      {
+        "name": "RAILS_ENV",
+        "value": "production"
+      },
+      {
+        "name": "RAILS_LOG_TO_STDOUT",
+        "value": "enabled"
+      },
+      {
+        "name": "RAILS_SERVE_STATIC_FILES",
+        "value": "enabled"
+      }
+    ],
+    "secrets": [
+      {
+        "name": "DATABASE_URL",
+        "valueFrom": "/parking-checker/production/DATABASE_URL"
+      },
+      {
+        "name": "RAILS_MASTER_KEY",
+        "valueFrom": "/parking-checker/rails/master-key"
+      }
+    ],
+    "essential": true
+  }
+]
