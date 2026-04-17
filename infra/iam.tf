@@ -35,7 +35,10 @@ resource "aws_iam_role_policy" "ecs_task_execution_ssm" {
         Action = [
           "ssm:GetParameters"
         ]
-        Resource = "arn:aws:ssm:ap-northeast-1:*:parameter/parking-checker/*"
+        Resource = [
+          "arn:aws:ssm:ap-northeast-1:*:parameter/parking-checker/*",
+          "arn:aws:ssm:ap-northeast-1:*:parameter/parking-checker/rails/*"
+        ]
       }
     ]
   })
