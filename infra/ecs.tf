@@ -1,4 +1,4 @@
- # ECSクラスター
+# ECSクラスター
 resource "aws_ecs_cluster" "main" {
   name = "parking-checker"
 
@@ -53,8 +53,8 @@ resource "aws_ecs_task_definition" "app" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = 512
   memory                   = 1024
-  task_role_arn            = aws_iam_role.ecs_task_role.arn
-  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
+  task_role_arn            = aws_iam_role.ecs_task_role.arn # タスク内のコンテナが実行中に使う権限
+  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn # タスクが起動時に使う権限
 
   container_definitions = templatefile("${path.root}/task_definitions/app.json", {
     repository_url = aws_ecr_repository.app.repository_url # ECRのリポジトリURL(app.json内で、タスクがどのDockerイメージを使うかを指定しているから渡す必要あり)
@@ -96,7 +96,7 @@ resource "aws_ecs_service" "app" {
   # サービスがタスクを起動・停止する時に、ALBのターゲットグループにも自動で登録・解除してくれる設定
   load_balancer {
     target_group_arn = aws_lb_target_group.app.arn # どのターゲットグループに紐づけるか(ALBのtg)
-    container_name   = "app" # どのコンテナに紐づけるか(appコンテナ)
+    container_name   = "app" # タスク定義を元に立ち上がるどのコンテナに紐づけるか(app.json内のappコンテナ)
     container_port   = 3000 # どのポートに紐づけるか(appコンテナの3000ポート)
   }
 
