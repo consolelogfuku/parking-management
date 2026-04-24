@@ -104,6 +104,7 @@ resource "aws_iam_role" "github_actions" {
           Federated = aws_iam_openid_connect_provider.github.arn
         }
         Action = "sts:AssumeRoleWithWebIdentity" # OIDCトークンを使って、GitHub Actionsが、このIAMロールを使うことを許可する
+        # Condition内の2つの条件を両方満たした場合だけ、ロールを引き受けられる(aud: トークンが誰宛てか、sub: どのリポジトリから発行されたトークンか)
         Condition = {
           StringEquals = { # 完全一致
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com" # トークンがSTS向け(audは宛先)に発行されたことを確認する
