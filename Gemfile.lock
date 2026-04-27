@@ -239,7 +239,7 @@ GEM
       date
       stringio
     public_suffix (7.0.5)
-    puma (8.0.0)
+    puma (8.0.1)
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
@@ -423,6 +423,7 @@ DEPENDENCIES
   jbuilder
   jsbundling-rails
   kamal
+  matrix
   pg (~> 1.1)
   prawn
   propshaft
